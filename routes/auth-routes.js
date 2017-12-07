@@ -7,7 +7,9 @@ const router = express.Router();
  router.post('/signup', upload.single('file'), (req, res, next)=>{
    const username= req.body.username; //username from the user model schema = username from the form
    const password = req.body.password;
-   const image =  `/uploads/${req.file.filename}`;
+   const category = req.body.category;
+   const rides = req.body.rides;
+   const image =  `/upload/${req.file.filename}`;
 
    if (!username || !password){
      res.status(400).json({message:"provide username and password"});
@@ -24,7 +26,10 @@ const router = express.Router();
    const hashPass= bcrypt.hashSync(password, salt);
    const theUser = new User({
      username: username,
-     password: hashPass
+     password: hashPass,
+     category: category,
+     rides:    rides,
+     image:    image
  });
 
  theUser.save((err) => {
@@ -71,7 +76,7 @@ req.login(foundUser, (err) => {
 
 router.get('/loggedin', (req, res, next) => {
   if (req.isAuthenticated()) {
-    res.status(200).json(req.user);
+    res.status(200).json(req.User);
     return;
   }
 

@@ -15,13 +15,12 @@ const userSchema = new Schema(
     image: {
     type: String, default: ''
     },
-    category:{
-      type: String,
-      require :[true ,"please introduce a category"]
+    category: {
+    type: String,
     },
-    sessions:{
-      type: Number
-    }
+    rides: {
+    type: Number, default: '0'
+    },
   },
   //Schema constructor setting
   {
