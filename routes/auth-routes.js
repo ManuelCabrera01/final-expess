@@ -77,7 +77,7 @@ req.login(foundUser, (err) => {
 });
 
 router.get('/regular', (req, res, next) => {
-  if (req.isAuthenticated()) {
+  if (req.usertype === false) {
     res.status(200).json(req.User);
     return;
   }
@@ -86,7 +86,7 @@ router.get('/regular', (req, res, next) => {
 });
 
 router.get('/premiun', (req, res, next) => {
-  if (req.isAuthenticated()) {
+  if (req.usertype === true) {
     res.json({ message: 'This is a private message' });
     return;
   }
