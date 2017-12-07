@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 
 const Rides = require('../models/rides-model');
-const upload = require('../configs/multer');
+
 
 const router = express.Router();
 
@@ -19,7 +19,7 @@ const router = express.Router();
 // });
 
 /*post new ride*/
-router.post('/rides', upload.single('file'), function(req, res) {
+router.post('/rides', function(req, res) {
   const phone = new Phone({
     name: req.body.name,
     date: req.body.date,
@@ -31,7 +31,7 @@ router.post('/rides', upload.single('file'), function(req, res) {
 
   rides.save((err) => {
     if (err) {
-      return res.send(err);
+      res.status(500).json({ message: 'somthing went wrong'});
     }
 
     return res.json({

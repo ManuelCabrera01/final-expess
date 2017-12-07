@@ -9,8 +9,8 @@ const ridesSchema = new Schema(
       required: [true, "Name is required"]
     },
     date: {
-      type: Date,
-      required: [true, "Date is required"]
+      type: Date
+      // required: [true, "Date is required"]
     },
     category: {
     type: String,

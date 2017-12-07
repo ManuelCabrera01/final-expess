@@ -10,7 +10,8 @@ const router = express.Router();
    const category = req.body.category;
    const rides    = req.body.rides;
    const usertype = req.body.usertype;
-   const image    =  `/upload/${req.file.filename}`;
+   const image = req.body.image;
+  //  const image    =  `/upload/${req.file.filename}`;
 
    if (!username || !password){
      res.status(400).json({message:"provide username and password"});
