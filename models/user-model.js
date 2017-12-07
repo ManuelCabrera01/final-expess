@@ -21,6 +21,9 @@ const userSchema = new Schema(
     rides: {
     type: Number, default: '0'
     },
+    usertype: {
+    type: Boolean,
+    },
   },
   //Schema constructor setting
   {

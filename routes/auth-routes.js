@@ -8,8 +8,9 @@ const router = express.Router();
    const username= req.body.username; //username from the user model schema = username from the form
    const password = req.body.password;
    const category = req.body.category;
-   const rides = req.body.rides;
-   const image =  `/upload/${req.file.filename}`;
+   const rides    = req.body.rides;
+   const usertype = req.body.usertype;
+   const image    =  `/upload/${req.file.filename}`;
 
    if (!username || !password){
      res.status(400).json({message:"provide username and password"});
@@ -28,8 +29,9 @@ const router = express.Router();
      username: username,
      password: hashPass,
      category: category,
-     rides:    rides,
-     image:    image
+     rides   : rides,
+     usertype: usertype,
+     image   :image
  });
 
  theUser.save((err) => {
@@ -74,7 +76,7 @@ req.login(foundUser, (err) => {
   res.status(200).json({ message: 'Success' });
 });
 
-router.get('/loggedin', (req, res, next) => {
+router.get('/regular', (req, res, next) => {
   if (req.isAuthenticated()) {
     res.status(200).json(req.User);
     return;
@@ -83,7 +85,7 @@ router.get('/loggedin', (req, res, next) => {
   res.status(403).json({ message: 'Unauthorized' });
 });
 
-router.get('/private', (req, res, next) => {
+router.get('/premiun', (req, res, next) => {
   if (req.isAuthenticated()) {
     res.json({ message: 'This is a private message' });
     return;
