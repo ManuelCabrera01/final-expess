@@ -9,7 +9,7 @@ const router = express.Router();
 
 /* GET rides listing. */
 // router.get('/showRides', (req, res, next) => {
-//   Phone.find((err, rideList) => {
+//   Rides.find((err, rideList) => {
 //     if (err) {
 //       res.json(err);
 //       return;
@@ -20,7 +20,7 @@ const router = express.Router();
 
 /*post new ride*/
 router.post('/rides', function(req, res) {
-  const phone = new Phone({
+  const ride = new Rides({
     name: req.body.name,
     date: req.body.date,
     category: req.body.category,
@@ -58,7 +58,7 @@ router.get('/ride/:id', (req, res) => {
     });
 });
 
-/* EDIT a Phone. */
+/* EDIT a Rides. */
 router.put('/ridess/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: 'Specified id is not valid' });
