@@ -16,7 +16,7 @@ const ridesSchema = new Schema(
     type: String,
     },
     distance: {
-    type: Number, default: '0'+ ml,
+    type: Number, default: '0',
     required: [true, "Distance is required"]
     },
    map:{
@@ -32,6 +32,6 @@ const ridesSchema = new Schema(
   }
 );
 
-const Rides = mongoose.model("Rides", userSchema);
+const Rides = mongoose.model("Rides", ridesSchema);
 
 module.exports = Rides;
