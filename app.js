@@ -14,6 +14,7 @@ var users = require('./routes/users');
 var rides = require('./routes/rides-routes');
 var authRoutes = require('./routes/auth-routes');
 require ('./config/dataBase');
+
 require ('./config/passport');
 
 var app = express();
@@ -43,12 +44,13 @@ app.use(passport.session());
 app.use('/', index);
 app.use('/users', users);
 app.use('/',authRoutes );
-app.use('/rides',rides);
+app.use('/',rides);
 //------------------------
 
-// app.use((req, res, next) => {
-//   res.sendfile(__dirname + '/public/index.html');
-// });
+app.use((req, res, next) => {
+  res.sendfile(__dirname + '/public/index.html');
+});
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');

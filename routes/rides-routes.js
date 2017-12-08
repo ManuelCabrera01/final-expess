@@ -1,6 +1,5 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
 const Rides = require('../models/rides-model');
 
 
@@ -19,6 +18,11 @@ const router = express.Router();
 // });
 
 /*post new ride*/
+// .........>
+
+
+
+ // ......>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 router.post('/rides', function(req, res) {
   const ride = new Rides({
     name: req.body.name,
@@ -26,17 +30,16 @@ router.post('/rides', function(req, res) {
     category: req.body.category,
     distnace: req.body.distnace,
     // map: `/uploads/${req.file.filename}`,
-
   });
 
-  rides.save((err) => {
+  ride.save((err) => {
     if (err) {
       res.status(500).json({ message: 'somthing went wrong'});
     }
 
     return res.json({
       message: 'New ride created!',
-      ride: ride
+
     });
   });
 });
@@ -59,7 +62,7 @@ router.get('/ride/:id', (req, res) => {
 });
 
 /* EDIT a Rides. */
-router.put('/ridess/:id', (req, res) => {
+router.put('/rides/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: 'Specified id is not valid' });
     return;
