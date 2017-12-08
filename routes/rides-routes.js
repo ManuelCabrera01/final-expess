@@ -30,7 +30,7 @@ router.post('/rides', function(req, res) {
     category: req.body.category,
     distnace: req.body.distnace,
     // map: `/uploads/${req.file.filename}`,
-  });
+  })
 
   ride.save((err) => {
     if (err) {
