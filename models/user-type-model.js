@@ -1,0 +1,6 @@
+
+
+models.export = [
+"regular",
+" premiun"
+]

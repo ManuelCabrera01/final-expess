@@ -24,9 +24,9 @@ const userSchema = new Schema(
     require: true,
      ref: 'Rides'
    }],
-    usertype: {
-    type: Boolean,
-    },
+    usertype:
+    { type: String, enum: TYPES, required: true },
+    
   },
   //Schema constructor setting
   {
