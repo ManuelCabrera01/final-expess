@@ -1,6 +1,7 @@
 const express = require ('express');
 const bcrypt  = require ('bcrypt');
 const User = require ('../models/user-model');
+const RidesModel = require ('../models/rides-model');
 const upload = require('../config/multer');
 const router = express.Router();
 
@@ -10,7 +11,7 @@ const router = express.Router();
    const category = req.body.category;
    const rides    = req.body.rides;
    const usertype = req.body.usertype;
-   const picture    =  `/upload/${req.file.filename}`
+  //  const picture    =  `/upload/${req.file.filename}`
 
    if (!username || !password){
      res.status(400).json({message:"provide username and password"});
@@ -65,6 +66,16 @@ req.login(foundUser, (err) => {
   foundUser.password = undefined;
   res.status(200).json(foundUser);
 });
+return new Promise((resolve, reject) => {
+            RidesModel.populate(rides, 'user')
+                .then((_rides) => {
+                    _.forEach(rides, (rides) => {
+                        rides.user = _.orderBy(rides.user, ['position','title','_id']);
+                    });
+                    return res.json( lists );
+                })
+                .catch((error) => res.status(400).json({ message: 'impossible to retrieve cards' }));
+        });
   });
     });
 

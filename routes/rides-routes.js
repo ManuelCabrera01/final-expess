@@ -29,6 +29,7 @@ router.post('/rides', function(req, res) {
     date: req.body.date,
     category: req.body.category,
     distance: req.body.distance,
+    participant:req.body.participant,
     // map: `/uploads/${req.file.filename}`,
   });
 

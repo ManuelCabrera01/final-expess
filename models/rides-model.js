@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
-
 const ridesSchema = new Schema(
   {
   name: {
@@ -21,6 +19,15 @@ const ridesSchema = new Schema(
     type: Number,
     required: [true, "Distance is required"]
     },
+
+    user: {
+    type: Schema.Types.ObjectId,
+    ref: 'User',
+    require: true
+  },
+  participant:{
+    type:Number,  
+  },
 
    map:{
   type: String

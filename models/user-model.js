@@ -18,9 +18,12 @@ const userSchema = new Schema(
     category: {
     type: String,
     },
-    rides: {
-    type: Number, default: '0'
-    },
+    rides:[{
+    type: Schema.Types.ObjectId,
+    'default': [],
+    require: true,
+     ref: 'Rides'
+   }],
     usertype: {
     type: Boolean,
     },
