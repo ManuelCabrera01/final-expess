@@ -8,7 +8,7 @@ const ridesSchema = new Schema(
       type: String,
       required: [true, "Name is required"]
     },
-    
+
     date: {
       type: Date
     },
@@ -18,7 +18,7 @@ const ridesSchema = new Schema(
     },
 
     distance: {
-    type: Number, default: '0',
+    type: Number,
     required: [true, "Distance is required"]
     },
 

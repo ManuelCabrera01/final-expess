@@ -28,13 +28,13 @@ router.post('/rides', function(req, res) {
     name: req.body.name,
     date: req.body.date,
     category: req.body.category,
-    distnace: req.body.distnace,
+    distance: req.body.distance,
     // map: `/uploads/${req.file.filename}`,
-  })
+  });
 
   ride.save((err) => {
     if (err) {
-      res.status(500).json({ message: 'somthing went wrong'});
+      res.status(500).json({ message: err});
     }
 
     return res.json({
