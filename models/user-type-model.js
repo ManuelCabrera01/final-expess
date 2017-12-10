@@ -1,6 +1,4 @@
-
-
-models.export = [
+module.export = [
 "regular",
 " premiun"
-]
+];

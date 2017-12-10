@@ -2,6 +2,7 @@ const express = require ('express');
 const bcrypt  = require ('bcrypt');
 const User = require ('../models/user-model');
 const RidesModel = require ('../models/rides-model');
+// const TYPES    = require('../models/user-types-model'); user can selec primun vertion
 const upload = require('../config/multer');
 const router = express.Router();
 
@@ -11,7 +12,7 @@ const router = express.Router();
    const category = req.body.category;
    const rides    = req.body.rides;
    const usertype = req.body.usertype;
-  //  const picture    =  `/upload/${req.file.filename}`
+   const picture    =  `/upload/${req.file.filename}`
 
    if (!username || !password){
      res.status(400).json({message:"provide username and password"});
@@ -101,3 +102,7 @@ router.get('/premiun', (req, res, next) => {
 
   res.status(403).json({ message: 'Unauthorized ' });
 });
+
+
+// this is a cut pice of code that allow the user chose betwen primeun
+ // router.post('/signup', { types: TYPES },

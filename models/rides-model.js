@@ -23,7 +23,7 @@ const ridesSchema = new Schema(
     user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
-    require: true
+    // require: true
   },
   participant:{
     type:Number,
