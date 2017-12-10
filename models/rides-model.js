@@ -19,14 +19,14 @@ const ridesSchema = new Schema(
     type: Number,
     required: [true, "Distance is required"]
     },
-
+// comment
     user: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     require: true
   },
   participant:{
-    type:Number,  
+    type:Number,
   },
 
    map:{
