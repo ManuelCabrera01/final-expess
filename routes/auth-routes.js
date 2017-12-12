@@ -18,7 +18,6 @@ const router = express.Router();
    if (!username || !password){
      res.status(400).json({message:"provide username and password"});
      return;
-   }
 
    User.findOne({username:username}, '_id', (err,foundUser)=>{
  if(foundUser){
@@ -33,7 +32,7 @@ const router = express.Router();
      password: hashPass,
 
  });
-// new
+// new change
  theUser.save((err) => {
    if (err) {
      res.status(500).json({ message: 'somthing went wrong'});
