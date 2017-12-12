@@ -33,7 +33,7 @@ const router = express.Router();
      password: hashPass,
 
  });
-
+// new
  theUser.save((err) => {
    if (err) {
      res.status(500).json({ message: 'somthing went wrong'});
