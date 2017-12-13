@@ -7,19 +7,21 @@ const router = express.Router();
 
 
 /* GET rides listing. */
-// router.get('/showRides', (req, res, next) => {
-//   Rides.find((err, rideList) => {
-//     if (err) {
-//       res.json(err);
-//       return;
-//     }
-//     res.json(rideList);
-//   });
-// });
+router.get('/showRides', (req, res, next) => {
+  Rides.find((err, rideList) => {
+    if (err) {
+      res.json(err); return;
+    }
+
+    Rides.ppopulate('user',(err , next)=>{
+      if (err){ return next(err); }
+      return res.json(rideList);
+    });
+  });
+});
 
 /*post new ride*/
 // .........>
-
 
 
  // ......>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -88,6 +90,8 @@ router.put('/rides/:id', (req, res) => {
     });
   });
 })
+
+/* DELETE a Rides. */
 router.delete('/rides/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: 'Specified id is not valid' });

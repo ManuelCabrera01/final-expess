@@ -2,12 +2,17 @@ const express = require ('express');
 const bcrypt  = require ('bcrypt');
 const User = require ('../models/user-model');
 const RidesModel = require ('../models/rides-model');
-// const TYPES    = require('../models/user-types-model'); user can selec primun vertion
+ const TYPES    = require('../models/user-types-model');
 const multer = require('../config/multer');
-const upload     = ({ dest: 'public/uploads' });
+const upload     = multer({ dest: 'public/uploads' });
 const router = express.Router();
 
- router.post('/signup'),(req, res, next)=>{
+
+
+
+
+
+ router.post('/signup',(req, res, next)=>{
    const username= req.body.username; //username from the user model schema = username from the form
    const password = req.body.password;
    const category = req.body.category;
@@ -18,7 +23,7 @@ const router = express.Router();
    if (!username || !password){
      res.status(400).json({message:"provide username and password"});
      return;
-
+}
    User.findOne({username:username}, '_id', (err,foundUser)=>{
  if(foundUser){
   res.status(400).json({message: 'the user name already exits'});
@@ -44,7 +49,7 @@ const router = express.Router();
    });
      });//theUset.save()
    });//USser.find
- };//GET/signup
+ });//GET/signup
 
  // router.post('/signup/upload', upload.single('file'), function(req, res) {
  //

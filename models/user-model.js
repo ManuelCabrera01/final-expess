@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// const TYPES    = require('../models/user-type-model');
+const TYPES    = require('../models/user-type-model');
+
+
 const userSchema = new Schema(
   {
     username: {
@@ -11,7 +13,6 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required"]
     },
-
     picture: {
     type: String, default: ''
     },
@@ -25,7 +26,7 @@ const userSchema = new Schema(
      ref: 'Rides'
    }],
     usertype:
-    { type: String,  required: true },
+    { type: String,  enum: TYPES, required: true },
 
   },
   //Schema constructor setting
@@ -40,9 +41,3 @@ const userSchema = new Schema(
 const User = mongoose.model("User", userSchema);
 
 module.exports = User;
-
-// this is a cut pice of code that allow the user chose betwen primeun
-// usertype:
-// { type: String, enum: TYPES, required: true },
-//
-// },
