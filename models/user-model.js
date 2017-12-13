@@ -1,6 +1,5 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-const TYPES    = require('../models/user-type-model');
 
 
 const userSchema = new Schema(
@@ -26,7 +25,7 @@ const userSchema = new Schema(
      ref: 'Rides'
    }],
     usertype:
-    { type: String,  enum: TYPES, required: true },
+    { type:Boolean, required: true },
 
   },
   //Schema constructor setting

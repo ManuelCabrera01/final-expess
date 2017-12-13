@@ -2,9 +2,9 @@ const express = require ('express');
 const bcrypt  = require ('bcrypt');
 const User = require ('../models/user-model');
 const RidesModel = require ('../models/rides-model');
- const TYPES    = require('../models/user-types-model');
+
 const multer = require('../config/multer');
-const upload     = multer({ dest: 'public/uploads' });
+const upload     =  ({ dest: 'public/uploads' });
 const router = express.Router();
 
 
@@ -111,23 +111,23 @@ return new Promise((resolve, reject) => {
   res.status(200).json({ message: 'Success' });
 });
 
-router.get('/regular', (req, res, next) => {
-  if (req.usertype === false) {
-    res.status(200).json(req.User);
-    return;
-  }
-
-  res.status(403).json({ message: 'Unauthorized' });
-});
-
-router.get('/premiun', (req, res, next) => {
-  if (req.usertype === true) {
-    res.json({ message: 'This is a private message' });
-    return;
-  }
-
-  res.status(403).json({ message: 'Unauthorized ' });
-});
+// router.get('/regular', (req, res, next) => {
+//   if (req.usertype === false) {
+//     res.status(200).json(req.User);
+//     return;
+//   }
+//
+//   res.status(403).json({ message: 'Unauthorized' });
+// });
+//
+// router.get('/premiun', (req, res, next) => {
+//   if (req.usertype === true) {
+//     res.json({ message: 'This is a private message' });
+//     return;
+//   }
+//
+//   res.status(403).json({ message: 'Unauthorized ' });
+// });
 
 
 // this is a cut pice of code that allow the user chose betwen primeun
