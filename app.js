@@ -44,7 +44,7 @@ app.use(passport.session());
 app.use('/', index);
 app.use('/users', users);
 app.use('/',authRoutes );
-app.use('/',rides);
+app.use('/', rides);
 //------------------------
 
 app.use((req, res, next) => {

@@ -22,7 +22,7 @@ const ridesSchema = new Schema(
     required: [true, "Distance is required"]
     },
 // comment
-    user: {
+    owner: {
     type: Schema.Types.ObjectId,
     ref: 'User',
     require: true

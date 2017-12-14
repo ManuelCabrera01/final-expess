@@ -3,8 +3,8 @@ const bcrypt  = require ('bcrypt');
 const User = require ('../models/user-model');
 const RidesModel = require ('../models/rides-model');
 
-const multer = require('../config/multer');
-const upload     =  ({ dest: 'public/uploads' });
+// const multer = require('../config/multer');
+// const upload     =  ({ dest: 'public/uploads' });
 const router = express.Router();
 
 
@@ -12,13 +12,13 @@ const router = express.Router();
 
 
 
- router.post('/signup',(req, res, next)=>{
-   const username= req.body.username; //username from the user model schema = username from the form
-   const password = req.body.password;
-   const category = req.body.category;
-   const rides    = req.body.rides;
+ router.post('/signup', (req, res, next) =>{
+   const username   = req.body.username; //username from the user model schema = username from the form
+   const password   = req.body.password;
+   const picture    = req.body.picture;
+   const category   = req.body.category;
+   const rides     = req.body.rides;
    const usertype = req.body.usertype;
-   const picture    =  req.body.picture;
 
    if (!username || !password){
      res.status(400).json({message:"provide username and password"});
@@ -32,15 +32,22 @@ const router = express.Router();
 //save to the DB if we didn't find the user
    const salt = bcrypt.genSaltSync(10);
    const hashPass= bcrypt.hashSync(password, salt);
+
+
    const theUser = new User({
-     username: username,
-     password: hashPass,
+    username: username,
+    password: hashPass,
+    category: category,
+    rides   : rides,
+    picture: picture,
+    usertype: usertype
 
  });
 // new change
  theUser.save((err) => {
    if (err) {
-     res.status(500).json({ message: 'somthing went wrong'});
+     res.status(500).json({ message: 'somehing went wrong'});
+     return;
    }
 
    req.login(foundUser,(error)=> {
@@ -51,26 +58,7 @@ const router = express.Router();
    });//USser.find
  });//GET/signup
 
- // router.post('/signup/upload', upload.single('file'), function(req, res) {
- //
- //   const theUser = new User({
- //     username: req.body.username,
- //     category: req.body.category,
- //     rides:req.body.rides,
- //     usertype:req.body.usertype,
- //     picture:+req.file.filename
- //
- //   });
- //   theUser.save((err) => {
- //     if (err) {
- //       return res.send(err);
- //     }
- //     return res.json({
- //       user: user
- //     });
- //   });
- // });
- //
+
 
   module.exports = router;
 
@@ -93,6 +81,7 @@ req.login(foundUser, (err) => {
   foundUser.password = undefined;
   res.status(200).json(foundUser);
 });
+
 return new Promise((resolve, reject) => {
             RidesModel.populate(rides, 'user')
                 .then((_rides) => {
@@ -101,7 +90,7 @@ return new Promise((resolve, reject) => {
                     });
                     return res.json( lists );
                 })
-                .catch((error) => res.status(400).json({ message: 'impossible to retrieve cards' }));
+                .catch((error) => res.status(400).json({ message: 'impossible to find this ride' }));
         });
   });
     });
@@ -111,24 +100,4 @@ return new Promise((resolve, reject) => {
   res.status(200).json({ message: 'Success' });
 });
 
-// router.get('/regular', (req, res, next) => {
-//   if (req.usertype === false) {
-//     res.status(200).json(req.User);
-//     return;
-//   }
-//
-//   res.status(403).json({ message: 'Unauthorized' });
-// });
-//
-// router.get('/premiun', (req, res, next) => {
-//   if (req.usertype === true) {
-//     res.json({ message: 'This is a private message' });
-//     return;
-//   }
-//
-//   res.status(403).json({ message: 'Unauthorized ' });
-// });
-
-
-// this is a cut pice of code that allow the user chose betwen primeun
- // router.post('/signup', { types: TYPES },
+// router.post('/signup/upload', upload.single('file'), function(req, res) { <--------------->copy this line in singup to upload files<------------>  const  picture=`/uploads/${req.file.filename}`;

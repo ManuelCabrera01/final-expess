@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
+const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
@@ -13,7 +13,7 @@ const userSchema = new Schema(
       required: [true, "Password is required"]
     },
     picture: {
-    type: String, default: ''
+    type: String
     },
     category: {
     type: String,
@@ -24,9 +24,9 @@ const userSchema = new Schema(
     require: true,
      ref: 'Rides'
    }],
-    usertype:
-    { type:Boolean, required: true },
-
+    usertype: {
+    type: String,
+    },
   },
   //Schema constructor setting
   {
