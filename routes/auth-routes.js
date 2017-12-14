@@ -12,7 +12,7 @@ const router = express.Router();
 
 
 
- router.post('/signup', (req, res, next) =>{
+ router.post('/api/signup', (req, res, next) =>{
    const username   = req.body.username; //username from the user model schema = username from the form
    const password   = req.body.password;
    const picture    = req.body.picture;
@@ -60,9 +60,9 @@ const router = express.Router();
 
 
 
-  module.exports = router;
 
-  router.post('/login', (req, res, next )=> {
+
+  router.post('/api/login', (req, res, next )=> {
 const username = req.body.username;
 const password = req.body.password;
 
@@ -95,9 +95,20 @@ return new Promise((resolve, reject) => {
   });
     });
 
-    router.post('/logout', (req, res, next) => {
+    router.post('/api/logout', (req, res, next) => {
   req.logout();
   res.status(200).json({ message: 'Success' });
 });
 
+router.get('/api/checklogin', (req, res, next) => {
+    if (req.isAuthenticated()) {
+      res.status(200).json(req.user);
+      return;
+    }
+
+    res.status(401).json({ message: 'Unauthorized' });
+});
+
+
+module.exports = router;
 // router.post('/signup/upload', upload.single('file'), function(req, res) { <--------------->copy this line in singup to upload files<------------>  const  picture=`/uploads/${req.file.filename}`;
