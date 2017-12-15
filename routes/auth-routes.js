@@ -2,14 +2,14 @@ const express = require ('express');
 const bcrypt  = require ('bcrypt');
 const User = require ('../models/user-model');
 const RidesModel = require ('../models/rides-model');
-
+const ensureLogin = require("connect-ensure-login");
 // const multer = require('../config/multer');
 // const upload     =  ({ dest: 'public/uploads' });
 const router = express.Router();
 
 
 
-
+// signup BLOCK OF CODE***********
 
 
  router.post('/api/signup', (req, res, next) =>{
@@ -43,7 +43,7 @@ const router = express.Router();
     usertype: usertype
 
  });
-// new change
+
  theUser.save((err) => {
    if (err) {
      res.status(500).json({ message: 'somehing went wrong'});
@@ -60,7 +60,7 @@ const router = express.Router();
 
 
 
-
+// LOG THE USER IN **************
 
   router.post('/api/login', (req, res, next )=> {
 const username = req.body.username;
@@ -95,11 +95,16 @@ return new Promise((resolve, reject) => {
   });
     });
 
+
+// LOGOUT THE USER************
     router.post('/api/logout', (req, res, next) => {
   req.logout();
   res.status(200).json({ message: 'Success' });
 });
 
+
+
+// CO=NFIR IF THE USER IS LOOGED IN**********
 router.get('/api/checklogin', (req, res, next) => {
     if (req.isAuthenticated()) {
       res.status(200).json(req.user);

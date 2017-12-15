@@ -33,8 +33,11 @@ const ridesSchema = new Schema(
 
    map:{
   type: String
-   }
-
+},
+comment:{
+  type: Schema.Types.ObjectId,
+  ref:"Comment"
+}
   },
 
   {
