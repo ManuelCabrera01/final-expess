@@ -4,29 +4,12 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    username: {
-      type: String,
-      required: [true, "User is required"]
-    },
-    password: {
-      type: String,
-      required: [true, "Password is required"]
-    },
-    picture: {
-    type: String
-    },
-    category: {
-    type: String,
-    },
-    rides:[{
-    type: Schema.Types.ObjectId,
-    'default': [],
-    require: true,
-     ref: 'Rides'
-   }],
-    usertype: {
-    type: String,
-    },
+    username: {type: String,required: [true, "User is required"]},
+    password: {type: String,required: [true, "Password is required"]},
+    picture:  {type: String},
+    category: {type: String,},
+    rides:   [{type: Schema.Types.ObjectId,'default': [],require: true,ref: 'Rides'}],
+    usertype: {type: String,},
   },
   //Schema constructor setting
   {

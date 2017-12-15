@@ -7,16 +7,16 @@ const router = express.Router();
 
 
 /* GET rides listing. */
-// router.get('/showRides', (req, res, next) => {
-//   Rides.find((err, rideList) => {
-//     if (err) {
-//       res.json(err);
-//       return;
-//     }
-//     res.json(rideList);
-//   });
-// });
-
+router.get('/ridePage', (req, res, next) => {
+  Rides
+      .find({})
+      .populate('_user')
+      .exec((err, rides) => {
+        res.json({
+          message: 'all the ries!',
+      });
+});
+});
 /*post new ride*/
 // .........>
 
@@ -32,6 +32,7 @@ router.post('/rides' , ensureLogin.ensureLoggedIn(),function (req, res)  {
     category: req.body.category,
     distance: req.body.distance,
     participant:req.body.participant,
+    comment:req.body.comment,
 
   });
 
@@ -68,7 +69,7 @@ router.get('/ride/:id', (req, res) => {
 });
 
 /* EDIT a Rides. */
-router.put('/rides/:id', (req, res) => {
+router.put('/ride/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: 'Specified id is not valid' });
     return;
@@ -79,6 +80,7 @@ router.put('/rides/:id', (req, res) => {
     date: req.body.date,
     category: req.body.category,
     distnace: req.body.distnace,
+    comment:req.body.comment,
     // map: `/uploads/${req.file.filename}`,
   };
 
@@ -93,7 +95,7 @@ router.put('/rides/:id', (req, res) => {
     });
   });
 })
-router.delete('/rides/:id', (req, res) => {
+router.delete('/ride/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: 'Specified id is not valid' });
     return;
