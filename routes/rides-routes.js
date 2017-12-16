@@ -1,56 +1,49 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Rides = require('../models/rides-model');
-const ensureLogin = require("connect-ensure-login");
+const owner = require ('../models/user-model');
+// const ensureLogin = require("connect-ensure-login");
 
 const router = express.Router();
 
 
 /* GET rides listing. */
-router.get('/ridePage', (req, res, next) => {
-  Rides
-      .find({})
-      .populate('_user')
-      .exec((err, rides) => {
-        res.json({
-          message: 'all the ries!',
+router.get('/rides', (req, res, next) => {
+  Rides.find((err, rideList) => {
+    if (err) {
+      res.json(err);
+      return;
+    }
+        res.json(rideList);
       });
 });
-});
 /*post new ride*/
-// .........>
-
-
 
  // ......>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
-router.post('/rides' , ensureLogin.ensureLoggedIn(),function (req, res)  {
-  // Rides.findOne({ owner: req.user._id }),
-  const ride = new Rides({
-    owner : req.user._id,
-    name: req.body.name,
-    date: req.body.date,
-    category: req.body.category,
-    distance: req.body.distance,
-    participant:req.body.participant,
-    comment:req.body.comment,
-
-  });
-
+ router.post('/rides', function(req, res) {
+  //  Rides.findOne({owner:req.user._id});
+   const ride = new Rides({
+     name: req.body.name,
+     date: req.body.date,
+    // owner: req.user._id,
+     category: req.body.category,
+     distance: req.body.distance,
+     participant:req.body.participant,
+     // map: `/uploads/${req.file.filename}`,
+   });
   ride.save((err) => {
+console.log(owner._id);
+      if (err) {
+    return res.status(500).json({ message: err})
 
-    if (err) {
-      return res.status(500);
+      }
 
-
-    }
-
-    return res.json({
-      message: 'New ride created!',
-
+      return res.json({
+        message: 'New ride created!',
+      ride:ride
+      });
     });
-  });
 });
-
 /* GET a single ride. */
 router.get('/ride/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
@@ -94,7 +87,9 @@ router.put('/ride/:id', (req, res) => {
       message: 'Ride change have been save'
     });
   });
-})
+});
+
+// **** delete rides
 router.delete('/ride/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: 'Specified id is not valid' });

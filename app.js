@@ -12,6 +12,7 @@ var passport = require('passport');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var rides = require('./routes/rides-routes');
+var comment = require('./routes/comment-routes');
 var authRoutes = require('./routes/auth-routes');
 require ('./config/dataBase');
 
@@ -45,6 +46,7 @@ app.use('/', index);
 app.use('/users', users);
 app.use('/',authRoutes );
 app.use('/', rides);
+app.use('/', comment)
 //------------------------
 
 app.use((req, res, next) => {

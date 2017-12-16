@@ -1,15 +1,16 @@
 const mongoose = require('mongoose');
-
 const Schema = mongoose.Schema;
+
 
 const userSchema = new Schema(
   {
-    username: {type: String,required: [true, "User is required"]},
-    password: {type: String,required: [true, "Password is required"]},
-    picture:  {type: String},
-    category: {type: String,},
-    rides:   [{type: Schema.Types.ObjectId,'default': [],require: true,ref: 'Rides'}],
-    usertype: {type: String,},
+    username: {type: String, required: [true, "User is required"]  },
+    password: { type: String, required: [true, "Password is required"]  },
+    email: {type: String,required: true},
+    picture: {  type: String, default: ''},
+    category: {type: String,  },
+    rides:[{type: Schema.Types.ObjectId,  'default': [], ref: 'Rides'}],
+    usertype:  { type: Boolean },
   },
   //Schema constructor setting
   {
