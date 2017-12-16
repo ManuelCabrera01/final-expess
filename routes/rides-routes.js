@@ -39,6 +39,7 @@ const ownerId = req.user._id;
     return res.status(500).json({ message: err})
 
       }
+      //this save it inside user rides so you can see how many rides one user have created 
     Owner.findByIdAndUpdate({ _id: ownerId }, { $push: { rides: ride._id }}).exec();
 
       // aqui------------

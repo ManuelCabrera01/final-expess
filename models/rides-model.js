@@ -33,7 +33,7 @@ ridesSchema.virtual('timeRemaining').get(function(){
 });
 
 ridesSchema.virtual('inputFormattedDate').get(function(){
-  return moment(this.date).format('YYYY-MM-DD');
+  return moment(this.date).format('MM-DD-YYYY');
 });
 const Rides = mongoose.model("Rides", ridesSchema);
 
