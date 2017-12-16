@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Rides = require('../models/rides-model');
-const owner = require ('../models/user-model');
+const Owner = require ('../models/user-model');
 // const ensureLogin = require("connect-ensure-login");
 
 const router = express.Router();
@@ -21,7 +21,7 @@ router.get('/rides', (req, res, next) => {
 
  // ......>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
  router.post('/rides', function(req, res) {
-   
+
    const ride = new Rides({
      name: req.body.name,
      date: req.body.date,
@@ -31,12 +31,17 @@ router.get('/rides', (req, res, next) => {
      participant:req.body.participant,
      // map: `/uploads/${req.file.filename}`,
    });
+const ownerId = req.user._id;
+
   ride.save( (err) => {
 
       if (err) {
     return res.status(500).json({ message: err})
 
       }
+    Owner.findByIdAndUpdate({ _id: ownerId }, { $push: { rides: ride._id }}).exec();
+
+      // aqui------------
 
       return res.json({
         message: 'New ride created!',

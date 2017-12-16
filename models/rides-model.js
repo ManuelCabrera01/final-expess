@@ -22,19 +22,19 @@ const ridesSchema = new Schema({
   });
 
 
-// ridesSchema.methods.belongsTo = function(user){
-//   return this.owner.equals(user._id);
-// }
-//
-// ridesSchema.virtual('timeRemaining').get(function(){
-//   let remaining = moment(this.date).fromNow(true).split(' ');
-//   let [days, unit] = remaining;
-//   return { days, unit };
-// });
-//
-// ridesSchema.virtual('inputFormattedDate').get(function(){
-//   return moment(this.date).format('YYYY-MM-DD');
-// });
+ridesSchema.methods.belongsTo = function(user){
+  return this.owner.equals(user._id);
+}
+
+ridesSchema.virtual('timeRemaining').get(function(){
+  let remaining = moment(this.date).fromNow(true).split(' ');
+  let [days, unit] = remaining;
+  return { days, unit };
+});
+
+ridesSchema.virtual('inputFormattedDate').get(function(){
+  return moment(this.date).format('YYYY-MM-DD');
+});
 const Rides = mongoose.model("Rides", ridesSchema);
 
 module.exports = Rides;
