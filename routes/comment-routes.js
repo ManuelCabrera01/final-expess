@@ -8,10 +8,10 @@ const router = express.Router();
 
 router.post('/comment', function(req, res) {
   const comment = new Comment({
-    // autor:     req.user.id,
+    autor:     req.user.id,
     date:      req.body.date,
     paragraph: req.body.paragraph,
-    // _rides :req.Rides._id
+    _rides :req.Rides._id
 
   });
 

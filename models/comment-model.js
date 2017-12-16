@@ -6,8 +6,8 @@ const Schema = mongoose.Schema;
 
 const commentsSchema = new Schema(
   {
-    // autor:     {type: Schema.Types.ObjectId,mref: 'User',  },
-    // _rides:    {type: Schema.Types.ObjectId, ref: 'Rides',  },
+    autor:     {type: Schema.Types.ObjectId,mref: 'User',  },
+    _rides:    {type: Schema.Types.ObjectId, ref: 'Rides',  },
     paragraph: {type: String, required: [true, " you have to ride something dude"]},
      date:     {type: Date },
   });

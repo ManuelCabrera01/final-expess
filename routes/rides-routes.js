@@ -21,18 +21,18 @@ router.get('/rides', (req, res, next) => {
 
  // ......>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
  router.post('/rides', function(req, res) {
-  //  Rides.findOne({owner:req.user._id});
+   
    const ride = new Rides({
      name: req.body.name,
      date: req.body.date,
-    // owner: req.user._id,
+     owner: req.user._id,
      category: req.body.category,
      distance: req.body.distance,
      participant:req.body.participant,
      // map: `/uploads/${req.file.filename}`,
    });
-  ride.save((err) => {
-console.log(owner._id);
+  ride.save( (err) => {
+
       if (err) {
     return res.status(500).json({ message: err})
 
