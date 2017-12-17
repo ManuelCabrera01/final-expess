@@ -1,6 +1,7 @@
 const passport = require('passport');
 const User = require('../models/user-model.js');
 const FbStrategy = require('passport-facebook').Strategy;
+const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
 
 
 //SerializeUser: is saving only the ID in the session
@@ -36,6 +37,34 @@ const FbStrategy = require('passport-facebook').Strategy;
 
     const newUser = new User({
       facebookID: profile.id
+    });
+
+    newUser.save((err) => {
+      if (err) {
+        return done(err);
+      }
+      done(null, newUser);
+    });
+  });
+
+}));
+
+//google+ login logig
+passport.use(new GoogleStrategy({
+  clientID: "933646329562-m54j24fbiv9pnu95da55d43ser0e6or0.apps.googleusercontent.com",
+  clientSecret: "VDsUN4Z6VuqhRWgrXaNMV94n",
+  callbackURL: "/auth/google/callback"
+}, (accessToken, refreshToken, profile, done) => {
+  User.findOne({ googleID: profile.id }, (err, user) => {
+    if (err) {
+      return done(err);
+    }
+    if (user) {
+      return done(null, user);
+    }
+
+    const newUser = new User({
+      googleID: profile.id
     });
 
     newUser.save((err) => {

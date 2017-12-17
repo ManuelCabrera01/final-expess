@@ -2,6 +2,7 @@ const express = require ('express');
 const bcrypt  = require ('bcrypt');
 const User = require ('../models/user-model');
 const RidesModel = require ('../models/rides-model');
+const passport = require('passport');
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 // const multer = require('../config/multer');
 // const upload     =  ({ dest: 'public/uploads' });
@@ -61,8 +62,8 @@ const router = express.Router();
  });//GET/signup
 
 //facebook login
-authRoutes.get("/auth/facebook", passport.authenticate("facebook"));
-authRoutes.get("/auth/facebook/callback", passport.authenticate("facebook", {
+router.get("/auth/facebook", passport.authenticate("facebook"));
+router.get("/auth/facebook/callback", passport.authenticate("facebook", {
   successRedirect: "/private-page",
   failureRedirect: "/"
 }));
@@ -73,12 +74,12 @@ authRoutes.get("/auth/facebook/callback", passport.authenticate("facebook", {
 
 
 //google+ login
-authRoutes.get("/auth/google", passport.authenticate("google", {
+router.get("/auth/google", passport.authenticate("google", {
   scope: ["https://www.googleapis.com/auth/plus.login",
           "https://www.googleapis.com/auth/plus.profile.emails.read"]
 }));
 
-authRoutes.get("/auth/google/callback", passport.authenticate("google", {
+router.get("/auth/google/callback", passport.authenticate("google", {
   failureRedirect: "/",
   successRedirect: "/private-page"
 }));

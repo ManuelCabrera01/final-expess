@@ -3,10 +3,15 @@ const mongoose = require('mongoose');
 const Autor = require ('../models/user-model');
 const Rides= require ('../models/rides-model');
 const Comment = require('../models/comment-model');
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const router = express.Router();
 // const ensureLogin = require("connect-ensure-login");
 
-router.post('/comment', function(req, res) {
+
+// created a comment
+
+
+router.post('/:id/comment', ensureLoggedIn('/api/login'),function(req, res) {
   const comment = new Comment({
     autor     :req.user.name,   // you only need the name of the autor not the entire Object
     date      : req.body.date,
@@ -28,7 +33,13 @@ const _ridesId = req.rides._id
    });
 });
 
-router.delete('/comment/:id', (req, res) => {
+
+
+//delelt comment
+
+
+
+router.delete('/:id/comment/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: 'Specified id is not valid' });
     return;
