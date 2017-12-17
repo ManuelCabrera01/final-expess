@@ -2,7 +2,7 @@ const express = require ('express');
 const bcrypt  = require ('bcrypt');
 const User = require ('../models/user-model');
 const RidesModel = require ('../models/rides-model');
-
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 // const multer = require('../config/multer');
 // const upload     =  ({ dest: 'public/uploads' });
 const router = express.Router();
@@ -19,7 +19,7 @@ const router = express.Router();
    const picture    = req.body.picture;
    const category   = req.body.category;
    const rides      = req.body.rides;
-   const usertype   = req.body.usertype;
+   const payMembership   = req.body.payMembership;
 
    if (!username || !password){
      res.status(400).json({message:"provide username and password"});
@@ -36,13 +36,13 @@ const router = express.Router();
 
 
    const theUser = new User({
-    username: username,
-    password: hashPass,
-    email: email,
-    category: category,
-    rides   : rides,
-    picture: picture,
-    usertype: usertype
+    username:         username,
+    password:         hashPass,
+    email:            email,
+    category:         category,
+    rides:            rides,
+    picture:          picture,
+    payMembership:    payMembership
 
  });
 // new change
@@ -64,7 +64,7 @@ const router = express.Router();
 
 
 
-  router.post('/api/login', (req, res, next )=> {
+  router.post('/api/login', ensureLoggedOut() , (req, res, next )=> {
 const username = req.body.username;
 const password = req.body.password;
 
@@ -84,20 +84,20 @@ req.login(foundUser, (err) => {
   res.status(200).json(foundUser);
 });
 
-return new Promise((resolve, reject) => {
-            RidesModel.populate(rides, 'user')
-                .then((_rides) => {
-                    _.forEach(rides, (rides) => {
-                        rides.user = _.orderBy(rides.user, ['position','title','_id']);
-                    });
-                    return res.json( lists );
-                })
-                .catch((error) => res.status(400).json({ message: 'impossible to find this ride' }));
-        });
+// return new Promise((resolve, reject) => {
+//             RidesModel.populate(rides, 'user')
+//                 .then((_rides) => {
+//                     _.forEach(rides, (rides) => {
+//                         rides.user = _.orderBy(rides.user, ['position','title','_id']);
+//                     });
+//                     return res.json( lists );
+//                 })
+//                 .catch((error) => res.status(400).json({ message: 'impossible to find this ride' }));
+//         });
   });
     });
 
-    router.post('/api/logout', (req, res, next) => {
+    router.post('/api/logout',ensureLoggedIn('/api/login'), (req, res, next) => {
   req.logout();
   res.status(200).json({ message: 'Success' });
 });

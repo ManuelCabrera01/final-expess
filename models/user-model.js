@@ -10,7 +10,7 @@ const userSchema = new Schema(
     picture: {  type: String, default: ''},
     category: {type: String,  },
     rides:[{type: Schema.Types.ObjectId,  'default': [], ref: 'Rides'}],
-    usertype:  { type: Boolean },
+    payMembership:  { type: Boolean,default:false },
   },
   //Schema constructor setting
   {
