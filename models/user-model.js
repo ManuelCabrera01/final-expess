@@ -11,6 +11,9 @@ const userSchema = new Schema(
     category: {type: String,  },
     rides:[{type: Schema.Types.ObjectId,  'default': [], ref: 'Rides'}],
     payMembership:  { type: Boolean,default:false },
+//social login
+    facebookID: String,
+  googleID: String
   },
   //Schema constructor setting
   {

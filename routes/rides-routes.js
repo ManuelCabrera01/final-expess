@@ -2,8 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Rides = require('../models/rides-model');
 const Owner = require ('../models/user-model');
-const {ensureLogin,ensurelogout} = require("connect-ensure-login");
-
+const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const router = express.Router();
 
 
@@ -20,7 +19,7 @@ router.get('/rides', (req, res, next) => {
 /*post new ride*/
 
  // ......>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
- router.post('/rides', function(req, res) {
+ router.post('/rides', ensureLoggedIn('/api/login'), (req, res, next) => {
 
     const ride = new Rides({
      name: req.body.name,
@@ -52,7 +51,7 @@ const ownerId = req.user._id;
       });
     });
 /* GET a single ride. */
-  router.get('/ride/:id', (req, res) => {
+  router.get('/ride/:id', ensureLoggedIn('/api/login'), (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
@@ -69,7 +68,7 @@ const ownerId = req.user._id;
     });
 
 /* EDIT a Rides. */
-  router.put('/ride/:id/edit', (req, res) => {
+  router.put('/ride/:id/edit',ensureLoggedIn('/api/login'), (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
