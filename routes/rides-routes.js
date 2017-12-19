@@ -19,7 +19,7 @@ router.get('/rides', (req, res, next) => {
 /*post new ride*/
 
  // ......>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
- router.post('/rides', ensureLoggedIn('/api/login'), (req, res, next) => {
+ router.post('/api/rides', ensureLoggedIn('/api/login'), (req, res, next) => {
 
     const ride = new Rides({
      name: req.body.name,
@@ -51,7 +51,7 @@ const ownerId = req.user._id;
       });
     });
 /* GET a single ride. */
-  router.get('/ride/:id', ensureLoggedIn('/api/login'), (req, res) => {
+  router.get('/api/ride/:id', ensureLoggedIn('/api/login'), (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
@@ -68,7 +68,7 @@ const ownerId = req.user._id;
     });
 
 /* EDIT a Rides. */
-  router.put('/ride/:id/edit',ensureLoggedIn('/api/login'), (req, res) => {
+  router.put('/api/ride/:id/edit',ensureLoggedIn('/api/login'), (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
@@ -96,7 +96,7 @@ const ownerId = req.user._id;
   });
 
 // **** delete rides
-  router.delete('/ride/:id', (req, res) => {
+  router.delete('/api/ride/:id', (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;

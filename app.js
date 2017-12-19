@@ -9,11 +9,11 @@ var bodyParser = require('body-parser');
 var session = require ('express-session');
 var passport = require('passport');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
-var rides = require('./routes/rides-routes');
-var comment = require('./routes/comment-routes');
-var authRoutes = require('./routes/auth-routes');
+
+
+
+
+
 require ('./config/dataBase');
 
 require ('./config/passport');
@@ -42,11 +42,20 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //routes---------------------
+var index = require('./routes/index');
 app.use('/', index);
-app.use('/users', users);
-app.use('/',authRoutes );
-app.use('/', rides);
-app.use('/', comment)
+
+var users = require('./routes/users');
+app.use('/api', users);
+
+var authRoutes = require('./routes/auth-routes');
+app.use('/api',authRoutes );
+
+var rides = require('./routes/rides-routes');
+app.use('/api', rides);
+
+var comment = require('./routes/comment-routes');
+app.use('/api', comment)
 //------------------------
 
 app.use((req, res, next) => {
