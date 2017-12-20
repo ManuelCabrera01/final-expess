@@ -8,6 +8,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var session = require ('express-session');
 var passport = require('passport');
+var cors = require('cors');
 
 
 
@@ -19,6 +20,7 @@ require ('./config/dataBase');
 require ('./config/passport');
 
 var app = express();
+app.use(cors());
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -46,17 +48,18 @@ var index = require('./routes/index');
 app.use('/', index);
 
 var users = require('./routes/users');
-app.use('/api', users);
+app.use('/', users);
 
 var authRoutes = require('./routes/auth-routes');
-app.use('/api',authRoutes );
+app.use('/',authRoutes );
 
 var rides = require('./routes/rides-routes');
-app.use('/api', rides);
+app.use('/', rides);
 
 var comment = require('./routes/comment-routes');
-app.use('/api', comment)
+app.use('/', comment);
 //------------------------
+
 
 app.use((req, res, next) => {
   res.sendfile(__dirname + '/public/index.html');

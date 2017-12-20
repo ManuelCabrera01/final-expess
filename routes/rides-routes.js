@@ -7,7 +7,8 @@ const router = express.Router();
 
 
 /* GET rides listing. */
-router.get('/rides', (req, res, next) => {
+router.get('/api/rides', (req, res, next) => {
+  console.log('something');
   Rides.find((err, rideList) => {
     if (err) {
       res.json(err);
@@ -51,7 +52,7 @@ const ownerId = req.user._id;
       });
     });
 /* GET a single ride. */
-  router.get('/api/ride/:id', ensureLoggedIn('/api/login'), (req, res) => {
+  router.get('/api/rides/:id', ensureLoggedIn('/api/rides'), (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
