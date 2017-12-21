@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Rides = require('../models/rides-model');
-const Owner = require ('../models/user-model');
+const User = require ('../models/user-model');
 const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const router = express.Router();
 
@@ -14,6 +14,7 @@ router.get('/api/rides', (req, res, next) => {
       res.json(err);
       return;
       }
+        User.find().populate('rides');
         res.json(rideList);
       });
     });
@@ -31,7 +32,7 @@ router.get('/api/rides', (req, res, next) => {
      participant:req.body.participant,
      // map: `/uploads/${req.file.filename}`,
     });
-const ownerId = req.user._id;
+// const ownerId = req.user._id;
 
   ride.save( (err) => {
 
@@ -39,10 +40,11 @@ const ownerId = req.user._id;
     return res.status(500).json({ message: err})
 
         }
+        // User.find()
       //this save it inside user rides so you can see how many rides one user have created
-    Owner.findByIdAndUpdate({ _id: ownerId }, { $push: { rides: ride._id }}).exec();
+    // Owner.findByIdAndUpdate({ _id: ownerId }, { $push: { rides: ride._id }}).exec();
     // Owner.findByIdAndUpdate({ _id: ownerId }, { $push: { rides: ride.name}}).exec();
-
+  // .populate('rides');
       // aqui------------
 
       return res.json({

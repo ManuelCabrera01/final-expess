@@ -99,7 +99,9 @@ if (!foundUser ){
   res.status(400).json({message: 'incorrect username'});
   return;
 
+
 }
+User.find().populate('rides');
 
 if (!bcrypt.compareSync(password, foundUser.password)) {
   res.status(400).json({massage:"incorretc pasword"});
