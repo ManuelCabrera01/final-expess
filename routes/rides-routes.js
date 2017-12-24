@@ -8,21 +8,31 @@ const router = express.Router();
 
 /* GET rides listing. */
 router.get('/api/rides', (req, res, next) => {
-  console.log('something');
-  Rides.find((err, rideList) => {
-    if (err) {
-      res.json(err);
+  ;
+    if (!req.user) {
+      console.log("user not authorize");
+      res.status(401).json({ message: 'you have to login to see your rides' });
       return;
+    }
+    Rides.find().populate('user')
+    .exec((err, rideList) => {
+      if (err) {
+        res.status(500).json({ message: 'errrrrror dodu' });
+        return;
       }
-        User.find().populate('rides');
-        res.json(rideList);
-      });
+
+        res.status(200).json(rideList).console.log('something');
+  });
     });
 /*post new ride*/
 
  // ......>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
- router.post('/api/rides', ensureLoggedIn('/api/login'), (req, res, next) => {
+ router.post('/api/rides', (req, res, next) => {
+   if (!req.user) {
 
+         res.status(401).json({ message: 'dude you haven log ig how are you gonna create a ride pssss' });
+         return;
+       }
     const ride = new Rides({
      name: req.body.name,
      date: req.body.date,
@@ -32,7 +42,10 @@ router.get('/api/rides', (req, res, next) => {
      participant:req.body.participant,
      // map: `/uploads/${req.file.filename}`,
     });
-// const ownerId = req.user._id;
+
+// if (req.file) {
+//         theCamel.picture = '/uploads/' + req.file.filename;
+//       }
 
   ride.save( (err) => {
 
@@ -40,17 +53,13 @@ router.get('/api/rides', (req, res, next) => {
     return res.status(500).json({ message: err})
 
         }
-        // User.find()
-      //this save it inside user rides so you can see how many rides one user have created
-    // Owner.findByIdAndUpdate({ _id: ownerId }, { $push: { rides: ride._id }}).exec();
-    // Owner.findByIdAndUpdate({ _id: ownerId }, { $push: { rides: ride.name}}).exec();
-  // .populate('rides');
-      // aqui------------
 
       return res.json({
         message: 'New ride created!',
       ride:ride
         });
+        req.user.encryptedPassword = undefined;
+        ride.user = req.user;
       });
     });
 /* GET a single ride. */
@@ -60,13 +69,13 @@ router.get('/api/rides', (req, res, next) => {
       return;
     }
 
-    Rides.findById(req.params.id, (err, theRide) => {
+    Rides.findById(req.params.id, (err, ride) => {
         if (err) {
           res.json(err);
           return;
         }
 
-        res.json(theRide);
+        res.json(ride);
       });
     });
 

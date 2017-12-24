@@ -2,25 +2,61 @@ const passport = require('passport');
 const User = require('../models/user-model.js');
 const FbStrategy = require('passport-facebook').Strategy;
 const GoogleStrategy = require("passport-google-oauth").OAuth2Strategy;
-
+const LocalStrategy = require('passport-local').Strategy;
+const bcrypt = require('bcrypt');
 
 //SerializeUser: is saving only the ID in the session
-  passport.serializeUser((loginUser, cb) => {
-    cb(null, loginUser._id);
-  });
+passport.serializeUser((userFromDb, next) => {
+    next(null, userFromDb._id);
+});
 
 
-//retrieve full user details from DB using id, where all info is stored during session
-  passport.deserializeUser((userIdFromSession, cb) => {
-    User.findById(userIdFromSession, (err, userDocument) => {
-      if (err) {
-        cb(err);
-        return
-      }
-      cb(null, userDocument);
-    });
-  });
+// Retrieve the user's info from the DB with the ID we got from the bowl
+passport.deserializeUser((idFromBowl, next) => {
+User.findById(
+    idFromBowl,
+    (err, userFromDb) => {
+        if (err) {
+          next(err);
+          return;
+        }
 
+        next(null, userFromDb);
+    }
+  );
+});
+// username & password login strategy
+passport.use(new LocalStrategy(
+  {
+    usernameField: 'userName',    // sent through AJAX from Angular
+    passwordField: 'password'  // sent through AJAX from Angular
+  },
+  (theUserName, thePassword, next) => {
+
+      User.findOne(
+        { username: theUserName },
+        (err, userFromDb) => {
+            if (err) {
+              next(err);
+              return;
+            }
+
+            if (userFromDb === null) {
+              next(null, false, { message: 'Incorrect email 💩' });
+              return;
+            }
+
+            if (bcrypt.compareSync(thePassword, userFromDb.thePassword) === false) {
+              next(null, false, { message: 'Incorrect password 💩' });
+              return;
+            }
+
+            next(null, userFromDb);
+        }
+      ); // close User.findOne()
+
+  } // close (theEmail, thePassword, next) => {
+));
   //facebook login logig
   passport.use(new FbStrategy({
   clientID: "1791113691185757",

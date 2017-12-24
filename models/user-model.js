@@ -4,12 +4,13 @@ const Schema = mongoose.Schema;
 
 const userSchema = new Schema(
   {
-    username: {type: String, required: [true, "User is required"]  },
-    password: { type: String, required: [true, "Password is required"]  },
-    email: {type: String,required: true},
-    picture: {  type: String, default: ''},
-    category: {type: String,  },
-    rides:[{type: Schema.Types.ObjectId,  'default': [], ref: 'Rides'}],
+    username:              {type: String, required:true },
+    password:            { type: String, required:true  },
+    email:             {type: String},
+    picture:          {  type: String, default: ''},
+    category:        {type: String,  },
+    rides:          [{type: Schema.Types.ObjectId,  'default': [], ref: 'Rides'}],
+    comments:       [{type: Schema.Types.ObjectId,  'default': [], ref: 'Comments'}],
     payMembership:  { type: Boolean,default:false },
 //social login
     facebookID: String,
