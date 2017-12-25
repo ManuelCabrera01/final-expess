@@ -28,7 +28,7 @@ User.findById(
 // username & password login strategy
 passport.use(new LocalStrategy(
   {
-    usernameField: 'userName',    // sent through AJAX from Angular
+    usernameField: 'username',    // sent through AJAX from Angular
     passwordField: 'password'  // sent through AJAX from Angular
   },
   (theUserName, thePassword, next) => {
@@ -42,11 +42,11 @@ passport.use(new LocalStrategy(
             }
 
             if (userFromDb === null) {
-              next(null, false, { message: 'Incorrect email 💩' });
+              next(null, false, { message: 'Incorrect username 💩' });
               return;
             }
 
-            if (bcrypt.compareSync(thePassword, userFromDb.thePassword) === false) {
+            if (bcrypt.compareSync(thePassword, userFromDb.password) === false) {
               next(null, false, { message: 'Incorrect password 💩' });
               return;
             }
@@ -55,7 +55,7 @@ passport.use(new LocalStrategy(
         }
       ); // close User.findOne()
 
-  } // close (theEmail, thePassword, next) => {
+  } // close (theUserName, thePassword, next) => {
 ));
   //facebook login logig
   passport.use(new FbStrategy({

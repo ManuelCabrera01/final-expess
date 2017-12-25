@@ -59,7 +59,7 @@ const router = express.Router();
 
      // Clear the password before sending
                   // (not from the database, just from the object)
-     theUser.thePassword= undefined;
+     theUser.password= undefined;
      // Send the user's information to the frontend
      res.status(200).json(theUser);
    });// close req.login()
@@ -120,7 +120,7 @@ passport.authenticate('local',(err, theUser, extraInfo)=>{
               }
     // Clear the password before sending
             // (not from the database, just from the object)
-              theUser.thePassword = undefined;
+              theUser.password = undefined;
                       // Everything worked! Send the user's information to the client.
             res.status(200).json(theUser);
           });
