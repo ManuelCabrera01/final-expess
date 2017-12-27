@@ -6,24 +6,6 @@ const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const router = express.Router();
 
 
-/* GET rides listing. */
-router.get('/api/rides', (req, res, next) => {
-  ;
-    if (!req.user) {
-      console.log("user not authorize");
-      res.status(401).json({ message: 'you have to login to see your rides' });
-      return;
-    }
-    Rides.find().populate('user')
-    .exec((err, rideList) => {
-      if (err) {
-        res.status(500).json({ message: 'errrrrror dodu' });
-        return;
-      }
-
-        res.status(200).json(rideList).console.log('something');
-  });
-    });
 /*post new ride*/
 
  // ......>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -47,22 +29,58 @@ router.get('/api/rides', (req, res, next) => {
 //         theCamel.picture = '/uploads/' + req.file.filename;
 //       }
 
-  ride.save( (err) => {
-
-      if (err) {
-    return res.status(500).json({ message: err})
-
+ride.save((err) => {
+        // Unknown error from the database
+        if (err && ride.errors === undefined) {
+          res.status(500).json({ message: 'you cant safe any ride' });
+          return;
         }
+        // Validation error
+                if (err && ride.errors) {
+                  res.status(400).json({
+                    nameError: ride.errors.name,
+                    dateError: ride.errors.date,
+                    categoryError: ride.errors.category,
+                  distanceError: ride.errors.distance,
+                        participantError: ride.errors.participant
+                  });
+                  return;
+                }
+                // Put the full user info here for Angular
+        req.user.password = undefined;
+        ride.owner = req.user;
+        // Success!
+        res.status(200).json(theCamel);
 
-      return res.json({
-        message: 'New ride created!',
-      ride:ride
-        });
-        req.user.encryptedPassword = undefined;
-        ride.user = req.user;
       });
     });
+
+    /* GET rides listing. */
+    router.get('/api/rides', (req, res, next) => {
+      ;
+      if (!req.user) {
+        console.log("user not authorize");
+        res.status(401).json({ message: 'you have to login to see your rides' });
+        return;
+      }
+      ride
+      .find()
+      // retrieve all the info of the owners (needs "ref" in model)
+      .populate('user', { Password: 0 })
+      // don't retrieve "encryptedPassword" though
+      .exec((err, rideList) => {
+        if (err) {
+          res.status(500).json({ message: 'cant find any ride' });
+          return;
+        }
+
+        res.status(200).json(rideList);
+      });
+    }); // close router.get('/api/camels', ...
+
+
 /* GET a single ride. */
+
   router.get('/api/rides/:id', ensureLoggedIn('/api/rides'), (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
