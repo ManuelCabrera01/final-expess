@@ -2,32 +2,36 @@ const express = require('express');
 const mongoose = require('mongoose');
 const Rides = require('../models/rides-model');
 const User = require ('../models/user-model');
-const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
+const multer = require('multer');
+// const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const router = express.Router();
-
+const myUploader = multer({
+  dest: __dirname + '/../public/uploads/'
+});
 
 /*post new ride*/
 
  // ......>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
- router.post('/api/rides', (req, res, next) => {
+ router.post(
+  '/api/camels',
+  myUploader.single('camelPicture'), (req, res, next) => {
    if (!req.user) {
-
          res.status(401).json({ message: 'dude you haven log ig how are you gonna create a ride pssss' });
          return;
        }
     const ride = new Rides({
-     name: req.body.name,
-     date: req.body.date,
-     owner: req.user._id,
-     category: req.body.category,
-     distance: req.body.distance,
-     participant:req.body.participant,
+     name: req.body.rideName,
+     date: req.body.rideDate,
+     user: req.user._id,
+     category: req.body.rideCategory,
+     distance: req.body.rideDistance,
+     participant:req.body.rideParticipant,
      // map: `/uploads/${req.file.filename}`,
     });
 
-// if (req.file) {
-//         theCamel.picture = '/uploads/' + req.file.filename;
-//       }
+if (req.file) {
+        theCamel.picture = '/uploads/' + req.file.filename;
+      }
 
 ride.save((err) => {
         // Unknown error from the database
@@ -50,7 +54,7 @@ ride.save((err) => {
         req.user.password = undefined;
         ride.owner = req.user;
         // Success!
-        res.status(200).json(theCamel);
+        res.status(200).json(ride);
 
       });
     });
@@ -81,7 +85,7 @@ ride.save((err) => {
 
 /* GET a single ride. */
 
-  router.get('/api/rides/:id', ensureLoggedIn('/api/rides'), (req, res) => {
+  router.get('/api/rides/:id', (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
@@ -98,7 +102,7 @@ ride.save((err) => {
     });
 
 /* EDIT a Rides. */
-  router.put('/api/ride/:id/edit',ensureLoggedIn('/api/login'), (req, res) => {
+  router.put('/api/ride/:id/edit', (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
