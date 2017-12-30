@@ -1,6 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Rides = require('../models/rides-model');
+const RideModel = require('../models/rides-model');
 const User = require ('../models/user-model');
 const multer = require('multer');
 // const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
@@ -13,13 +13,13 @@ const myUploader = multer({
 
  // ......>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
  router.post(
-  '/api/camels',
-  myUploader.single('camelPicture'), (req, res, next) => {
+  '/api/rides',
+  myUploader.single('RidePicture'), (req, res, next) => {
    if (!req.user) {
          res.status(401).json({ message: 'dude you haven log ig how are you gonna create a ride pssss' });
          return;
        }
-    const ride = new Rides({
+    const theRide = new RideModel({
      name: req.body.rideName,
      date: req.body.rideDate,
      user: req.user._id,
@@ -30,29 +30,29 @@ const myUploader = multer({
     });
 
 if (req.file) {
-        theCamel.picture = '/uploads/' + req.file.filename;
+        theRide.picture = '/uploads/' + req.file.filename;
       }
 
-ride.save((err) => {
+theRide.save((err) => {
         // Unknown error from the database
-        if (err && ride.errors === undefined) {
+        if (err && theRide.errors === undefined) {
           res.status(500).json({ message: 'you cant safe any ride' });
           return;
         }
         // Validation error
-                if (err && ride.errors) {
+                if (err && TheRide.errors) {
                   res.status(400).json({
-                    nameError: ride.errors.name,
-                    dateError: ride.errors.date,
-                    categoryError: ride.errors.category,
-                  distanceError: ride.errors.distance,
-                        participantError: ride.errors.participant
+                    nameError: theRide.errors.name,
+                    dateError: theRide.errors.date,
+                    categoryError: theRide.errors.category,
+                  distanceError: theRide.errors.distance,
+                        participantError: theRide.errors.participant
                   });
                   return;
                 }
                 // Put the full user info here for Angular
         req.user.password = undefined;
-        ride.owner = req.user;
+      theRide.user= req.user;
         // Success!
         res.status(200).json(ride);
 
@@ -61,24 +61,24 @@ ride.save((err) => {
 
     /* GET rides listing. */
     router.get('/api/rides', (req, res, next) => {
-      ;
+
       if (!req.user) {
         console.log("user not authorize");
         res.status(401).json({ message: 'you have to login to see your rides' });
         return;
       }
-      ride
+      RideModel
       .find()
       // retrieve all the info of the owners (needs "ref" in model)
       .populate('user', { Password: 0 })
       // don't retrieve "encryptedPassword" though
-      .exec((err, rideList) => {
+      .exec((err, allTheRides) => {
         if (err) {
           res.status(500).json({ message: 'cant find any ride' });
           return;
         }
 
-        res.status(200).json(rideList);
+        res.status(200).json(allTheRides);
       });
     }); // close router.get('/api/camels', ...
 

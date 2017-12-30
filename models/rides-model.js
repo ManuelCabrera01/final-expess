@@ -6,7 +6,7 @@ const moment   = require('moment');
 const ridesSchema = new Schema({
     name:       {type: String, required: [true, "Name is required"]},
     distance:   {type: Number,required: [true, "Distance is required"]},
-    owner:      {type: Schema.Types.ObjectId, ref: 'User'},
+    user:      {type: Schema.Types.ObjectId, ref: 'User'},
     position:   {type: Number },
     date:       {type: Date},
     category:   {type: String,},
@@ -22,9 +22,9 @@ const ridesSchema = new Schema({
   });
 
 
-ridesSchema.methods.belongsTo = function(user){
-  return this.owner.equals(user._id);
-}
+// ridesSchema.methods.belongsTo = function(user){
+//   return this.owner.equals(user._id);
+// }
 
 ridesSchema.virtual('timeRemaining').get(function(){
   let remaining = moment(this.date).fromNow(true).split(' ');
@@ -35,7 +35,7 @@ ridesSchema.virtual('timeRemaining').get(function(){
 ridesSchema.virtual('inputFormattedDate').get(function(){
   return moment(this.date).format('MM-DD-YYYY');
 });
-const Rides = mongoose.model("Rides", ridesSchema);
+const RideModel = mongoose.model("Ride", ridesSchema);
 
-module.exports = Rides;
+module.exports = RideModel;
 // testing testing
