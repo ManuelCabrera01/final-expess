@@ -54,7 +54,7 @@ theRide.save((err) => {
         req.user.password = undefined;
       theRide.user= req.user;
         // Success!
-        res.status(200).json(ride);
+        res.status(200).json(theRide);
 
       });
     });

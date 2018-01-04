@@ -67,38 +67,38 @@ const router = express.Router();
    });//Usser.findOne()
  });//close POST/signup
 
-//facebook login
-router.get("/auth/facebook", passport.authenticate("facebook"));
-router.get("/auth/facebook/callback", passport.authenticate("facebook", {
-  successRedirect: "/private-page",
-  failureRedirect: "/"
-}));
+//facebook ...................>>>>>>>>>>>>>>>>>>>>>>>
+// router.get("/auth/facebook", passport.authenticate("facebook"));
+// router.get("/auth/facebook/callback", passport.authenticate("facebook", {
+//   successRedirect: "/private-page",
+//   failureRedirect: "/"
+// }));
 
-//.......................
+//.......................>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
 
 //google+ login
-router.get("/auth/google", passport.authenticate("google", {
-  scope: ["https://www.googleapis.com/auth/plus.login",
-          "https://www.googleapis.com/auth/plus.profile.emails.read"]
-}));
+// router.get("/auth/google", passport.authenticate("google", {
+//   scope: ["https://www.googleapis.com/auth/plus.login",
+//           "https://www.googleapis.com/auth/plus.profile.emails.read"]
+// }));
+//
+// router.get("/auth/google/callback", passport.authenticate("google", {
+//   failureRedirect: "/",
+//   successRedirect: "/private-page"
+// }));
 
-router.get("/auth/google/callback", passport.authenticate("google", {
-  failureRedirect: "/",
-  successRedirect: "/private-page"
-}));
-
-//.....................
+//.....................>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 
 
 // tradition login
 
-  router.post('/api/login', (req, res, next) => {
-const authenticateFunction =
-passport.authenticate('local',(err, theUser, extraInfo)=>{
+router.post('/api/login', (req, res, next) => {
+  const authenticateFunction =
+    passport.authenticate('local', (err, theUser, extraInfo) => {
   // Errors prevented us from deciding if login was a success or failure
   if (err) {
             res.status(500).json({ message: 'Unknown login error 💩' });
@@ -138,7 +138,7 @@ passport.authenticate('local',(err, theUser, extraInfo)=>{
 
 router.get('/api/checklogin', (req, res, next) => {
     if (!req.user) {
-      res.status(401).json({ message: 'Nobody logged in. 🥒' });
+      res.status(401).json({ message: 'Nobody logged in. ' });
       return;
     }
 
