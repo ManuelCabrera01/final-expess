@@ -9,7 +9,7 @@ const router = express.Router();
 const myUploader = multer({dest: __dirname + '/../public/uploads/'});
 
 // get the user information including rides and comment
-router.get('/api/profile/:id', (req, res, next) => {
+router.get('/api/profile/', (req, res, next) => {
 Rides
 .find({user: req.params.id}, (err, theRide) => {
   if(err) {return next(err); }
@@ -29,7 +29,7 @@ Rides
 router.put('/api/profile/:id',  myUploader.single('profilePicture'),
   (req, res, next) => {
     if(!req.user) {
-      res.status(401).json({ message: 'Log in to make any change in your profile'})
+      res.status(401).json({ message: 'Log in to make any change in your profile'});
       return;
     }
     const updates = new RecipeModel({
@@ -48,24 +48,7 @@ router.put('/api/profile/:id',  myUploader.single('profilePicture'),
       message: 'user info updated successfully'
     });
   });
-})
-// const _ridesId = req.rides._id
-//  comment.save((err) => {
-//      if (err) {
-//    return res.send(err);
-//
-//      }
-//      Rides.find()
-//      .populate('user');
-//
-//   // Rides.findByIdAndUpdate({ _id: _ridesId }, { $push: { comment: ride}}).exec();
-//      return res.json({
-//        message: 'this is your comment',
-//      comment:comment
-//      });
-//    });
-// });
-
+});
 
 
 //delelt User
