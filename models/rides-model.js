@@ -7,10 +7,10 @@ const ridesSchema = new Schema({
     name:       {type: String, required: [true, "Name is required"]},
     distance:   {type: Number,required: [true, "Distance is required"]},
     user:      {type: Schema.Types.ObjectId, ref: 'User'},
-    position:   {type: Number },
+    // position:   {type: Number },
     date:       {type: Date},
     category:   {type: String,},
-    participant:{type: Number,},
+    participant:{type: Number, default: 1 , min:1 },
     map:        {type: String},
     comment:   [{type: Schema.Types.ObjectId, 'default': [], ref: 'Comments' }]
   },

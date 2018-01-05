@@ -1,10 +1,8 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const RideModel = require('../models/rides-model');
-const User = require ('../models/user-model');
 const multer = require('multer');
-// const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const router = express.Router();
+
 const myUploader = multer({
   dest: __dirname + '/../public/uploads/'
 });
@@ -22,18 +20,18 @@ const myUploader = multer({
     const theRide = new RideModel({
      name: req.body.rideName,
      date: req.body.rideDate,
-     user: req.user._id,
+      user: req.user._id,
      category: req.body.rideCategory,
      distance: req.body.rideDistance,
      participant:req.body.rideParticipant,
      // map: `/uploads/${req.file.filename}`,
     });
 
-if (req.file) {
+    if (req.file) {
         theRide.picture = '/uploads/' + req.file.filename;
       }
 
-theRide.save((err) => {
+      theRide.save((err) => {
         // Unknown error from the database
         if (err && theRide.errors === undefined) {
           res.status(500).json({ message: 'you cant safe any ride' });
@@ -45,19 +43,19 @@ theRide.save((err) => {
                     nameError: theRide.errors.name,
                     dateError: theRide.errors.date,
                     categoryError: theRide.errors.category,
-                  distanceError: theRide.errors.distance,
-                        participantError: theRide.errors.participant
+                    distanceError: theRide.errors.distance,
+                    participantError: theRide.errors.participant
                   });
                   return;
                 }
                 // Put the full user info here for Angular
         req.user.password = undefined;
-      theRide.user= req.user;
+    theRide.user = req.user;
+
         // Success!
         res.status(200).json(theRide);
-
-      });
-    });
+      }); // close theRide.save()
+  }); // close router.post('/api/rides', ...
 
     /* GET rides listing. */
     router.get('/api/rides', (req, res, next) => {
@@ -71,7 +69,7 @@ theRide.save((err) => {
       .find()
       // retrieve all the info of the owners (needs "ref" in model)
       .populate('user', { Password: 0 })
-      // don't retrieve "encryptedPassword" though
+      // don't retrieve "password" though
       .exec((err, allTheRides) => {
         if (err) {
           res.status(500).json({ message: 'cant find any ride' });

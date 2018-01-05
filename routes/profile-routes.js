@@ -1,15 +1,16 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const Autor = require ('../models/user-model');
+const User = require ('../models/user-model');
 const Rides = require ('../models/rides-model');
 const Comment = require('../models/comment-model');
-const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
+// const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const router = express.Router();
-// const ensureLogin = require("connect-ensure-login");
 
+const myUploader = multer({dest: __dirname + '/../public/uploads/'});
 
-// created a comment
-router.post('/:id/comment',function(req, res) {
+// get the user information including rides and comment
+router.get('/api/profile/:id', (req, res, next) => {
+Rides
   if (!req.user) {
       res.status(401).json({ message: 'you need to log in before meke a comment you silly' });
       return;

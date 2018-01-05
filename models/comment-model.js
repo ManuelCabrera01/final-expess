@@ -6,14 +6,13 @@ const Schema = mongoose.Schema;
 
 const commentsSchema = new Schema(
   {
-    autor:     {type: Schema.Types.ObjectId, ref: 'User',  },
-    rides:     {type: Schema.Types.ObjectId, ref:  'Rides',  },
+    user:     {type: Schema.Types.ObjectId, ref: 'User',  },
+    rideId:     {type: Schema.Types.ObjectId, ref:  'Rides',  },
     paragraph: {type: String, required: [true, " you have to ride something dude"]},
-     date:     {type: Date },
-  });
+  },{
+   timestamps: {createdAt: "dateAdded",
+          }
+    });
 
-commentsSchema.methods.belongsTo = function(user){
-  return this.autor.equals(user._id);
-}
 const Comments = mongoose.model('Comments', commentsSchema);
 module.exports = Comments;
