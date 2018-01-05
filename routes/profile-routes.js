@@ -11,54 +11,81 @@ const myUploader = multer({dest: __dirname + '/../public/uploads/'});
 // get the user information including rides and comment
 router.get('/api/profile/:id', (req, res, next) => {
 Rides
-  if (!req.user) {
-      res.status(401).json({ message: 'you need to log in before meke a comment you silly' });
-      return;
-    }
-  const comment = new Comment({
-    autor     :req.user.username,   // you only need the name of the autor not the entire Object
-    date      : req.body.date,
-    paragraph :req.body.paragraph,
-    // rides     :req.rides._id // yout need to store the comment inside the ride
-
-  });
-// const _ridesId = req.rides._id
- comment.save((err) => {
-     if (err) {
-   return res.send(err);
-
-     }
-     Rides.find()
-     .populate('user');
-
-  // Rides.findByIdAndUpdate({ _id: _ridesId }, { $push: { comment: ride}}).exec();
-     return res.json({
-       message: 'this is your comment',
-     comment:comment
-     });
-   });
+.find({user: req.params.id}, (err, theRide) => {
+  if(err) {return next(err); }
+})
+.populate('user', {password : 0})
+.exec((err, theRide) => {
+  if(err) {
+    res.status(500).json({ message: 'unable to find ride😡'});
+    return;
+  }
+  res.status(200).json(theRide)
+});
 });
 
 
+//edit user information
+router.put('/api/profile/:id',  myUploader.single('profilePicture'),
+  (req, res, next) => {
+    if(!req.user) {
+      res.status(401).json({ message: 'Log in to make any change in your profile'})
+      return;
+    }
+    const updates = new RecipeModel({
+      name: req.body.userName,
+      email: req.body.userCategory,
+      picture:`/uploads/${req.file.filename}`,
+    });
 
-//delelt comment
+    User.findByIdAndUpdate(req.params.id, updates, (err) => {
+    if (err) {
+      res.json(err);
+      return;
+    }
+
+    res.json({
+      message: 'user info updated successfully'
+    });
+  });
+})
+// const _ridesId = req.rides._id
+//  comment.save((err) => {
+//      if (err) {
+//    return res.send(err);
+//
+//      }
+//      Rides.find()
+//      .populate('user');
+//
+//   // Rides.findByIdAndUpdate({ _id: _ridesId }, { $push: { comment: ride}}).exec();
+//      return res.json({
+//        message: 'this is your comment',
+//      comment:comment
+//      });
+//    });
+// });
 
 
 
-router.delete('/:id/comment/:id', (req, res) => {
+//delelt User
+
+
+
+router.delete('api/profile/:id', (req, res) => {
   if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
     res.status(400).json({ message: 'Specified id is not valid' });
     return;
   }
 
-  Comment.remove({ _id: req.params.id }, (err) => {
+  User.remove({ _id: req.params.id }, (err) => {
     if (err) {
       res.json(err);
       return;
     }
 
     return res.json({
-      message: 'comment deleted you pussy!'
+      message: 'your no longer exit in the cycling-catch universe!'
     });
   })
 });
