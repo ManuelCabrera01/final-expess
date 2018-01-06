@@ -3,6 +3,10 @@ const mongoose = require('mongoose');
 const User = require ('../models/user-model');
 const Rides = require ('../models/rides-model');
 const Comment = require('../models/comment-model');
+const multer = require('multer');
+
+
+
 // const { ensureLoggedIn, ensureLoggedOut } = require('connect-ensure-login');
 const router = express.Router();
 

@@ -39,14 +39,20 @@ app.use(cors({
 }));
 
 
+
 //routes---------------------
 const myAuthRoutes = require('./routes/auth-routes');
 app.use('/', myAuthRoutes);
 
+const myProfile = require('./routes/profile-routes');
+app.use('/', myProfile);
+//
+// const myComments= require('./routes/comment-routes');
+// app.use('/', myComments);
+
 const myRidesRoutes = require('./routes/rides-routes');
 app.use('/', myRidesRoutes);
 //------------------------
-
 app.use((req, res, next) => {
   res.sendfile(__dirname + '/public/index.html');
 });

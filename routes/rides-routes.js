@@ -2,7 +2,7 @@ const express = require('express');
 const RideModel = require('../models/rides-model');
 const multer = require('multer');
 const router = express.Router();
-
+const mongoose = require('mongoose');
 const myUploader = multer({
   dest: __dirname + '/../public/uploads/'
 });
@@ -38,7 +38,7 @@ const myUploader = multer({
           return;
         }
         // Validation error
-                if (err && TheRide.errors) {
+                if (err && theRide.errors) {
                   res.status(400).json({
                     nameError: theRide.errors.name,
                     dateError: theRide.errors.date,
@@ -89,7 +89,7 @@ const myUploader = multer({
       return;
     }
 
-    Rides.findById(req.params.id, (err, ride) => {
+  RideModel.findById(req.params.id, (err, ride) => {
         if (err) {
           res.json(err);
           return;
@@ -100,30 +100,31 @@ const myUploader = multer({
     });
 
 /* EDIT a Rides. */
-  router.put('/api/ride/:id/edit', (req, res) => {
+  router.put('/api/rides/:id/edit', (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
+      // console.log(ride.id);
     }
 
     const updates = {
-      name: req.body.name,
-      date: req.body.date,
-      category: req.body.category,
-      distnace: req.body.distnace,
-      comment:req.body.comment,
+      name: req.body.rideName,
+      date: req.body.rideDate,
+      category: req.body.rideCategory,
+      distnace: req.body.rideDistnace,
+      comment:req.body.rideComment,
     // map: `/uploads/${req.file.filename}`,
     };
 
-    Rides.findByIdAndUpdate(req.params.id, updates, (err) => {
+    RideModel.findByIdAndUpdate(req.params.id, updates, (ride, err) => {
       if (err) {
         res.json(err);
         return;
       }
 
-      res.json({
-        message: 'Ride change have been save'
-      });
+      res.json(ride
+        // message: 'Ride change have been save'
+      );
     });
   });
 
