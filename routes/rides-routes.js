@@ -101,7 +101,9 @@ const myUploader = multer({
 
 /* EDIT a Rides. */
   router.put('/api/rides/:id/edit', (req, res) => {
+    console.log("iIIIIIITSSSSSS HEREEEEE");
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
       // console.log(ride.id);
@@ -118,6 +120,7 @@ const myUploader = multer({
 
     RideModel.findByIdAndUpdate(req.params.id, updates, (ride, err) => {
       if (err) {
+
         res.json(err);
         return;
       }
@@ -129,13 +132,13 @@ const myUploader = multer({
   });
 
 // **** delete rides
-  router.delete('/api/ride/:id', (req, res) => {
+  router.delete('/api/rides/:id', (req, res) => {
     if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
     }
 
-    Rides.remove({ _id: req.params.id }, (err) => {
+    RideModel.remove({ _id: req.params.id }, (err) => {
       if (err) {
         res.json(err);
         return;
