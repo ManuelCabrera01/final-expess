@@ -9,6 +9,7 @@
 //
 //
 //
+// //---------------------------POST new comment--------------------------
 // router.post('/api/rides/:id/comment', (req, res, next) => {
 //   const theComent = new CommentModel({
 //     user: req.user._id,
@@ -33,7 +34,8 @@
 //     theComent.user = req.user;
 //     //SUCCESS
 //     res.status(200).json(theComent);
-//   })//close the comment.save
-// });//close router.post('/api/ride/:id/comment')
+//   });//close the comment.save
+// });//close router.post('/
+//
 //
 // module.exports = router;

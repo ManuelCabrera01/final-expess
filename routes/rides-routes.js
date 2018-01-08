@@ -8,9 +8,7 @@ const mongoose = require('mongoose');
 const myUploader = multer({dest: __dirname + '/../public/uploads/'});
 
 /*-------------------post new ride-----------------*/
- router.post(
-  '/api/rides',
-  myUploader.single('RidePicture'), (req, res, next) => {
+ router.post('/api/rides', myUploader.single('RidePicture'), (req, res, next) => {
    if (!req.user) {
          res.status(401).json({ message: 'dude you haven log ig how are you gonna create a ride pssss' });
          return;
@@ -54,34 +52,33 @@ const myUploader = multer({dest: __dirname + '/../public/uploads/'});
   }); // close router.post('/api/rides', ...
 
 
-//---------------------------POST new comment--------------------------
-router.post('/api/rides/:id/comment', (req, res, next) => {
-  const theComent = new CommentModel({
-    user: req.user._id,
-    rideId: req.params.id,
-    content: req.body.commentContent
-  });
-  theComent.save((err) => {
-    if(err && theComent.errors === undefined) {
-      res.status(500).json({ message: 'something went wrong in the data base'});
-      return;
-    }
-    //Validation error
-    if(err && theComent.errors) {
-      res.status(400).json({
-        contentError: theComent.errors.review,
-        userError:    theComent.errors.user
-      });
-      return;
-    }
-    //Put the full user info here for Angular
-    req.user.Password = undefined;
-    theComent.user = req.user;
-    //SUCCESS
-    res.status(200).json(theComent);
-  });//close the comment.save
-});//close router.post('/
-
+  //---------------------------POST new comment--------------------------
+  router.post('/api/rides/:id/comment', (req, res, next) => {
+    const theComent = new CommentModel({
+      user: req.user._id,
+      rideId: req.params.id,
+      content: req.body.commentContent
+    });
+    theComent.save((err) => {
+      if(err && theComent.errors === undefined) {
+        res.status(500).json({ message: 'something went wrong in the data base'});
+        return;
+      }
+      //Validation error
+      if(err && theComent.errors) {
+        res.status(400).json({
+          contentError: theComent.errors.review,
+          userError:    theComent.errors.user
+        });
+        return;
+      }
+      //Put the full user info here for Angular
+      // req.user.Password = undefined;
+      theComent.ride = req.ride;
+      //SUCCESS
+      res.status(200).json(theComent);
+    });//close the comment.save
+  });//close router.post('/
 
     /*----------------------- GET rides listing.------------------- */
     router.get('/api/rides', (req, res, next) => {
@@ -106,7 +103,58 @@ router.post('/api/rides/:id/comment', (req, res, next) => {
       });
     }); // close router.get('/api/camels', ...
 
+    /*----------------GET a single ride  ------------------- */
 
+   //
+  //   router.get('/api/rides/:id', (req, res) => {
+  //  if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+  //    res.status(400).json({ message: 'Specified id is not valid' });
+  //    return;
+  //  }
+   //
+  //  RideModel
+  //   .findById(req.params.id, (err, theRide) => {
+  //      if(err) { return next(err); }
+  //    })// retrieve all the info of the owners (needs "ref" in model)
+  //    .populate('user', { Password: 0 })
+  //    .exec((err, theRide) => {
+  //      if (err) {
+  //        res.status(500).json({ message: 'cant find any ride' });
+  //        return;
+  //      }
+   //
+  //      res.json(theRide);
+  //    });
+  //  });
+
+   /*----------------GET a single ride's comment  ------------------- */
+
+
+  //  router.get('/api/rides/:id', (req, res) => {
+  // if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
+  //   res.status(400).json({ message: 'Specified id is not valid' });
+  //   return;
+  // }
+  //
+  // RideModel
+  //  .findById(req.params.id, (err, theRide) => {
+  //     if(err) { return next(err); }
+  //   })// retrieve all the info of the owners (needs "ref" in model)
+  //   .populate('comment')
+  //   .exec((err, theRide) => {
+  //     if (err) {
+  //       res.status(500).json({ message: 'cant find any ride' });
+  //       return;
+  //     }
+  //
+  //     res.json(theRide);
+  //   });
+  // });
+
+
+
+
+// ((((((((()))))))))......................DO NOT DELETE THIS CODE.............................)))))))))))))
 /*----------------GET a single ride and tbe comment ------------------- */
 
   router.get('/api/rides/:id', (req, res, next) => {
@@ -114,13 +162,12 @@ router.post('/api/rides/:id/comment', (req, res, next) => {
       res.status(400).json({ message: 'Specified id is not valid' });
       return;
     }
-
     RideModel
     .findById(req.params.id, (err, theRide) => {
       if(err) { return next(err); }
     })// retrieve all the info of the owners (needs "ref" in model)
-    .populate('user', { Password: 0 })
-    .exec((err, TheRide) => {
+    .populate('comment')
+    .exec((err, theRide) => {
       if (err) {
         res.status(500).json({ message: 'cant find any ride' });
         return;
@@ -133,13 +180,14 @@ router.post('/api/rides/:id/comment', (req, res, next) => {
          .exec((err, theComment) => {
            if(err) {return next(err);}
            const rideAndComment = {
-             ride: theRide ,
-             comment: theComment
-           };
-           res.status(200).json(rideAndComment);
+  theRide, theComment
+           }
+           res.status(200).json(rideAndComment );
          });
        });
      });
+
+
 
 
 

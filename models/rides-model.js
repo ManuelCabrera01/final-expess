@@ -1,6 +1,7 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const moment   = require('moment');
+const mongoose=    require('mongoose');
+const Schema=      mongoose.Schema;
+const moment=    require('moment');
+const User=        require('./user-model');
 // const ObjectId   = require('mongoose').Types.ObjectId;
 
 const ridesSchema = new Schema({
@@ -12,7 +13,7 @@ const ridesSchema = new Schema({
     category:   {type: String,},
     participant:{type: Number, default: 1 , min:1 },
     map:        {type: String},
-    // comment:   [{type: Schema.Types.ObjectId, 'default': [], ref: 'Comments' }]
+    comment:   [{type: Schema.Types.ObjectId, ref: 'Comments' }]
   },
   {
   timestamps: {
