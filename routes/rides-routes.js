@@ -103,6 +103,8 @@ const myUploader = multer({dest: __dirname + '/../public/uploads/'});
       });
     }); // close router.get('/api/camels', ...
 
+    // ((((((((()))))))))......................DO NOT DELETE THIS CODE.............................)))))))))))))
+
     /*----------------GET a single ride  ------------------- */
 
    //
@@ -127,7 +129,9 @@ const myUploader = multer({dest: __dirname + '/../public/uploads/'});
   //    });
   //  });
 
-   /*----------------GET a single ride's comment  ------------------- */
+  // ((((((((()))))))))......................DO NOT DELETE THIS CODE.............................)))))))))))))
+
+   /*----------------GET a all ride's comment  ------------------- */
 
 
   //  router.get('/api/rides/:id', (req, res) => {
