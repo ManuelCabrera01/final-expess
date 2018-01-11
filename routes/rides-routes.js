@@ -206,11 +206,11 @@ const myUploader = multer({dest: __dirname + '/../public/uploads/'});
     }
 
     const updates = {
-      name: req.body.rideName,
-      date: req.body.rideDate,
-      category: req.body.rideCategory,
-      distnace: req.body.rideDistnace,
-      comment:req.body.rideComment,
+      name: req.body.updateName,
+      email: req.body.updateDate,
+      category: req.body.rupdateCategory,
+      membership: req.body.updateDistnace,
+      picture:req.body.updateComment,
     // map: `/uploads/${req.file.filename}`,
     };
 
@@ -221,9 +221,9 @@ const myUploader = multer({dest: __dirname + '/../public/uploads/'});
         return;
       }
 
-      res.json(ride
+      res.json(ride);
         // message: 'Ride change have been save'
-      );
+
     });
   });
 

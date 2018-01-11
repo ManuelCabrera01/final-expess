@@ -29,7 +29,36 @@ router.get('/api/profile/:id', (req, res, next) => {
    })
  })
 
+ // EDIT user. */
+  router.put('/api/profile/:id/edit', myUploader.single('RidePicture'), (req, res) => {
+    console.log("iIIIIIITSSSSSS HEREEEEE");
+    if(!mongoose.Types.ObjectId.isValid(req.params.id)) {
 
+      res.status(400).json({ message: 'Specified id is not valid' });
+      return;
+      // console.log(ride.id);
+    }
+
+    const updates = {
+      username: req.body.updateUsername,
+      date: req.body.updateDate,
+      category: req.body.updateCategory,
+      distnace: req.body.updateDistnace,
+      picture: `/uploads/${req.file.filename}`,
+    };
+
+    UserModel.findByIdAndUpdate(req.params.id, updates, (user, err) => {
+      if (err) {
+
+        res.json(err);
+        return;
+      }
+
+      res.json(user);
+        // message: 'Ride change have been save'
+
+    });
+  });
 
 
 //edit user information

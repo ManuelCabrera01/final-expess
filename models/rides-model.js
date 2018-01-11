@@ -11,7 +11,7 @@ const ridesSchema = new Schema({
     // position:   {type: Number },
     date:       {type: Date},
     category:   {type: String,},
-    participant:{type: Number, default: 1 , min:1 },
+    participant:{type: [''], default: 1 , min:1 },
     map:        {type: String},
     comment:   [{type: Schema.Types.ObjectId, ref: 'Comments' }]
   },
