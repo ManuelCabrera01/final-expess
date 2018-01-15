@@ -20,7 +20,6 @@ const myUploader = multer({dest: __dirname + '/../public/uploads/'});
      category: req.body.rideCategory,
      distance: req.body.rideDistance,
      participant:req.body.rideParticipant,
-     // map: `/uploads/${req.file.filename}`,
     });
     if (req.file) {
         theRide.picture = '/uploads/' + req.file.filename;
