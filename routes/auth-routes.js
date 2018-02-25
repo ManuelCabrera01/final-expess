@@ -101,7 +101,7 @@ router.post('/api/login', (req, res, next) => {
     passport.authenticate('local', (err, theUser, extraInfo) => {
   // Errors prevented us from deciding if login was a success or failure
   if (err) {
-            res.status(500).json({ message: 'Unknown login error 💩' });
+            res.status(500).json({ message: 'Unknown login error ' });
             return;
           }
 
@@ -115,7 +115,7 @@ router.post('/api/login', (req, res, next) => {
           // Login successful, save them in the session.
           req.login(theUser, (err) => {
               if (err) {
-                res.status(500).json({ message: 'Session save error 💩' });
+                res.status(500).json({ message: 'Session save error ' });
                 return;
               }
     // Clear the password before sending
@@ -131,7 +131,7 @@ router.post('/api/login', (req, res, next) => {
       router.post('/api/logout', (req, res, next) => {
     // req.logout() is defined by passport
     req.logout();
-    res.status(200).json({ message: 'Log out success! 🐫' });
+    res.status(200).json({ message: 'Log out success! ' });
 });
 
 

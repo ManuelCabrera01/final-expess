@@ -488,7 +488,7 @@ var AuthComponent = (function () {
         })
             .catch(function (err) {
             var parsedError = err.json();
-            _this.errorMessage = parsedError.message + '🤪';
+            _this.errorMessage = parsedError.message + 'somethin went wrong';
         });
     }; //close signThemUp
     AuthComponent.prototype.doLogin = function () {
@@ -507,7 +507,7 @@ var AuthComponent = (function () {
         })
             .catch(function (err) {
             var parsedError = err.json();
-            _this.loginErrorMessage = parsedError.message = '🤪';
+            _this.loginErrorMessage = parsedError.message = 'something went wrong';
         });
     };
     AuthComponent = __decorate([
